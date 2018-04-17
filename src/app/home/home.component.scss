@@ -1,0 +1,30 @@
+h5 {
+  color: black;
+  text-align: right;
+  width: 100%;
+}
+.modelBody{
+    background-color: aqua;
+}
+.main-container {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+.scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  display: inline;
+
+}
+.card {
+  display: inline;
+  margin-right: 10px;
+  background: gray;
+  border: gray;
+}
+
+.card img {
+  height: 100px;
+}

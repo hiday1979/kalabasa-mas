@@ -1,0 +1,38 @@
+<div class="container main-container">
+  <div class="scrolling-wrapper">
+    <div class="card" *ngFor="let hero of images; let i = index">
+      <img id="demo" name="{{i}}" class="navbar-img-logo" alt="Angular Logo" src="{{ hero }}" data-toggle="modal"
+       (click)="saveName($event)" data-target="#myModal">
+    </div>
+  </div>
+  <br>
+    <span type="text" name="Max" value="Max">Max images: </span>
+    <span>{{imgCount}}</span>
+    <br>
+    <span>Number of images: </span>
+    <span>{{images.length}}</span>
+</div>
+
+<!-- model -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn" data-dismiss="modal">&times;</button>
+        <h5>הוסף תמונה</h5>
+      </div>
+
+      <div class="modal-body modelBody">
+        <p>Some text in the modal.</p>
+        <input type="file" name="myImage" accept="image/*" id="myImage" [(ngModel)]="inputImage" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="previewFile(inputImage)">Accept</button>
+      </div>
+    </div>
+
+
+  </div>
+</div>
