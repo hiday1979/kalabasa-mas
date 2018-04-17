@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.getAllUserImages();
-    let refToStorage1;
+    const refToStorage1 = '';
     // for (let i = 0; i < 15;) {
     //   this.images.push('/assets/img/card.png');
     //   i++;
@@ -65,28 +65,28 @@ export class HomeComponent implements OnInit {
     this.chosenPic = event.target;
   }
 
-  static fbSetData(inputImage) {
-    const ref = firebase.database().ref().child(firebase.auth().currentUser.uid);
-    ref.push(inputImage);
-    return ref;
-  }
-
   getAllUserImages() {
-    let userImages = [];
+    const userImages = [];
     let uid;
     firebase.auth().onAuthStateChanged(function (user) {
       uid = user.uid;
       const refToImages = firebase.database().ref().child(uid);
       refToImages.on('child_added', function(data) {
-        console.log("userImages.length");
-        /////////TODO add div as img
+        console.log('userImages.length');
       userImages.push(data.val());
       });
     });
-    for(let i = 0; i > userImages.length; ){
+    for (let i = 0; i > userImages.length; ) {
         this.images.push(userImages[i]);
-        i++
+        i++;
     }
     console.log(userImages.length);
+  }
+
+  // tslint:disable-next-line:member-ordering
+  static fbSetData(inputImage) {
+    const ref = firebase.database().ref().child(firebase.auth().currentUser.uid);
+    ref.push(inputImage);
+    return ref;
   }
 }
