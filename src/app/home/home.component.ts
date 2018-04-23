@@ -1,9 +1,10 @@
+
 import { AbuteComponent } from './../abute/abute.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterContentChecked, AfterViewChecked, ngOnChanges } from '@angular/core';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import { FotterComponent } from '../fotter/fotter.component';
 import { HeaderComponent } from '../header/header.component';
-import { MyServiceService} from '../my-service.service';
+import { MyServiceService } from '../my-service.service';
 
 declare var firebase: any;
 
@@ -12,7 +13,12 @@ declare var firebase: any;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit, AfterContentChecked, AfterViewChecked, ngOnChanges {
+  static uid;
+  static fbData;
+  static fbStorege;
+  static myimages = ['/assets/img/card.png'];
+
   mainPic: HTMLImageElement;
   chosenPic: HTMLImageElement;
   inputImg: HTMLInputElement;
@@ -29,25 +35,48 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllUserImages();
-    const refToStorage1 = '';
-    // for (let i = 0; i < 15;) {
-    //   this.images.push('/assets/img/card.png');
-    //   i++;
-    // } divImglist
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        HomeComponent.uid = user.uid;
+        HomeComponent.fbData = firebase.database().ref().child('users/' + HomeComponent.uid);
+        HomeComponent.fbData.on('child_added', function (snapshot) {
+          const object = Object.values(snapshot.val());
+          HomeComponent.myimages.push(object[0]);
+        });
+      } else {
+        // User is signed out.
+        firebase.auth().signInAnonymously().catch(function (error) {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorMessage);
+        });
+      }
+      // ...
+    });
     this.divImglist = <HTMLDivElement>document.getElementById('div');
-
     this.mainPic = <HTMLImageElement>document.getElementById('mainPic');
     this.inputImg = <HTMLInputElement>document.getElementById('myImage');
     this.inputImg.addEventListener('change', function (e) {
+      // save file to storage
       const file = this.files[0];
-      const uid = firebase.auth().currentUser.uid;
-      const refToStorage = firebase.storage().ref(uid).child(file.name);
-      refToStorage.put(file);
-      refToStorage.getDownloadURL().then(function(url) {
-        HomeComponent.fbSetData(url);
+      HomeComponent.fbStorege = firebase.storage().ref(HomeComponent.uid).child(file.name);
+      HomeComponent.fbStorege.put(file).then(function (snapshot) {
+        HomeComponent.fbStorege.getDownloadURL().then(function (urll) {
+          HomeComponent.fbSetData(urll);
+        });
       });
     });
+    this.logInToFB();
+  }
+
+  ngAfterContentChecked() {
+
+  }
+
+  ngAfterViewInit() {
+
   }
 
   previewFile(inputImage) {
@@ -57,8 +86,7 @@ export class HomeComponent implements OnInit {
     this.mainPic.src = imgChosen;
     this.chosenPic.src = imgChosen;
     this.images.push('/assets/img/card.png');
-
-    // this.fbSetData(imgChosen);
+    this.inputImg.value = '';
   }
 
   saveName(event) {
@@ -66,27 +94,21 @@ export class HomeComponent implements OnInit {
   }
 
   getAllUserImages() {
-    const userImages = [];
-    let uid;
-    firebase.auth().onAuthStateChanged(function (user) {
-      uid = user.uid;
-      const refToImages = firebase.database().ref().child(uid);
-      refToImages.on('child_added', function(data) {
-        console.log('userImages.length');
-      userImages.push(data.val());
-      });
-    });
-    for (let i = 0; i > userImages.length; ) {
-        this.images.push(userImages[i]);
-        i++;
-    }
-    console.log(userImages.length);
+
+  }
+
+  ngAfterViewChecked() {
+
   }
 
   // tslint:disable-next-line:member-ordering
-  static fbSetData(inputImage) {
-    const ref = firebase.database().ref().child(firebase.auth().currentUser.uid);
-    ref.push(inputImage);
-    return ref;
+  static fbSetData(inputImage: string) {
+    const ref = firebase.database().ref('users/' + HomeComponent.uid);
+    ref.push({ url: inputImage });
+  }
+
+  logInToFB() {
+    this.images = HomeComponent.myimages;
+    console.log(this.images);
   }
 }
