@@ -1,6 +1,6 @@
 
 import { AbuteComponent } from './../abute/abute.component';
-import { Component, OnInit, AfterViewInit, AfterContentChecked, AfterViewChecked, ngOnChanges } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import { FotterComponent } from '../fotter/fotter.component';
 import { HeaderComponent } from '../header/header.component';
@@ -13,7 +13,7 @@ declare var firebase: any;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, AfterViewInit, AfterContentChecked, AfterViewChecked, ngOnChanges {
+export class HomeComponent implements OnInit, AfterViewInit {
   static uid;
   static fbData;
   static fbStorege;
@@ -71,10 +71,6 @@ export class HomeComponent implements OnInit, AfterViewInit, AfterContentChecked
     this.logInToFB();
   }
 
-  ngAfterContentChecked() {
-      // test
-  }
-
   ngAfterViewInit() {
 
   }
@@ -94,10 +90,6 @@ export class HomeComponent implements OnInit, AfterViewInit, AfterContentChecked
   }
 
   getAllUserImages() {
-
-  }
-
-  ngAfterViewChecked() {
 
   }
 
