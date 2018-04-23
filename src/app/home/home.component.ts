@@ -112,5 +112,7 @@ export class HomeComponent implements OnInit, AfterViewInit, AfterContentChecked
     console.log(this.images);
   }
 
-  test() {}
+  test() {
+    console.log('test');
+  }
 }
