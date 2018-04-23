@@ -111,4 +111,6 @@ export class HomeComponent implements OnInit, AfterViewInit, AfterContentChecked
     this.images = HomeComponent.myimages;
     console.log(this.images);
   }
+
+  test() {}
 }
