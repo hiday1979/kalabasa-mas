@@ -6,6 +6,7 @@ import { FotterComponent } from '../fotter/fotter.component';
 import { HeaderComponent } from '../header/header.component';
 import { MyServiceService } from '../my-service.service';
 
+
 declare var firebase: any;
 
 @Component({
@@ -25,12 +26,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
   divImglist: HTMLDivElement;
   imgCount = 15;
   inputImage = 'conected';
+  mainImageSrc;
   goalText = 'My first life goal';
   images = ['/assets/img/card.png'];
   options: any = {
     removeOnSpill: true
   };
   imgName = 0;
+  clearList = true;
+
   constructor() {
   }
 
@@ -57,6 +61,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
     this.divImglist = <HTMLDivElement>document.getElementById('div');
     this.mainPic = <HTMLImageElement>document.getElementById('mainPic');
+    this.mainImageSrc = this.mainPic.src;
     this.inputImg = <HTMLInputElement>document.getElementById('myImage');
     this.inputImg.addEventListener('change', function (e) {
       // save file to storage
@@ -80,13 +85,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
     reader.readAsDataURL(this.inputImg.files[0]);
     const imgChosen = URL.createObjectURL(this.inputImg.files[0]);
     this.mainPic.src = imgChosen;
-    this.chosenPic.src = imgChosen;
-    this.images.push('/assets/img/card.png');
     this.inputImg.value = '';
   }
 
   saveName(event) {
     this.chosenPic = event.target;
+    const myModel =  <HTMLDivElement>document.getElementById('demo');
+    if (this.chosenPic.src === this.mainImageSrc) {
+      myModel.setAttribute('data-target' , '#myModal');
+    } else {
+      this.mainPic.src = this.chosenPic.src;
+    }
+    console.log(this.chosenPic.src === this.mainImageSrc);
+
   }
 
   getAllUserImages() {
@@ -100,11 +111,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   logInToFB() {
-    this.images = HomeComponent.myimages;
-    console.log(this.images);
+      this.images = HomeComponent.myimages;
   }
 
   test() {
     console.log('test');
   }
+
 }

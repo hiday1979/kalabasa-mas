@@ -2,7 +2,7 @@
   <div class="scrolling-wrapper">
     <div class="card" *ngFor="let hero of images; let i = index">
       <img id="demo" name="{{i}}" class="navbar-img-logo" alt="Angular Logo" src="{{ hero }}" data-toggle="modal"
-       (click)="saveName($event)" data-target="#myModal">
+       (click)="saveName($event)">
     </div>
   </div>
   <br>
@@ -10,11 +10,11 @@
     <span>{{imgCount}}</span>
     <br>
     <span>Number of images: </span>
-    <span>{{images.length}}</span>
+    <span>{{images.length - 1}}</span>
 </div>
 
 <!-- model -->
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="myModal">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -36,3 +36,6 @@
 
   </div>
 </div>
+
+
+
