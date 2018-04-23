@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit, AfterViewInit, AfterContentChecked
   }
 
   ngAfterContentChecked() {
-
+      // test
   }
 
   ngAfterViewInit() {
