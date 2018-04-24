@@ -97,7 +97,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.mainPic.src = this.chosenPic.src;
     }
     console.log(this.chosenPic.src === this.mainImageSrc);
-
+    if (this.images.length >= this.imgCount) {
+      console.log('I am done');
+      document.getElementById('btnDone').style.display = 'initial';
+    }
   }
 
   getAllUserImages() {
@@ -114,8 +117,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.images = HomeComponent.myimages;
   }
 
-  test() {
-    console.log('test');
+  iAmDone() {
+      console.log('I am done');
   }
-
 }

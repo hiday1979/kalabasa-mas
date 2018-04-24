@@ -6,8 +6,9 @@
     </div>
   </div>
   <br>
-    <span type="text" name="Max" value="Max">Max images: </span>
+    <span type="text" name="Max" value="Max">Min images: </span>
     <span>{{imgCount}}</span>
+    <button id="btnDone" (click)="iAmDone()" type="button" class="btn btn-success btnDone">Done</button>
     <br>
     <span>Number of images: </span>
     <span>{{images.length - 1}}</span>

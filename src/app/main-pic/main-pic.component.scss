@@ -9,8 +9,25 @@
 
 .main_div img {
   height: 95%;
+  width: 59%;
 }
 
-.carousel-caption h3 {
+.main_div h4 {
+  // background-image: url('/assets/img/card.png');
+  // background-repeat: no-repeat;
+  //   background-attachment: fixed;
+  //   background-position: center;
   color: black;
+  margin-top: -90px;
+  margin-left: 21%;
+  height: 100px;
+  z-index: 1000;
+  padding-top: 50px;
+  width: 58%;
+  position:relative
+}
+
+.progressBar {
+  width: 58%;
+  margin-left: 20%;
 }
