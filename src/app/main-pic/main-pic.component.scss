@@ -30,4 +30,40 @@
 .progressBar {
   width: 58%;
   margin-left: 20%;
+  margin-bottom: 7px;
+  background: green;
+}
+
+label {
+  background: green;
+}
+
+/* The slider itself */
+input[type=range]{
+  -webkit-appearance: none;
+  border: none;
+
+  &::-webkit-slider-runnable-track {
+    width: 250px;
+    height: 2px;
+    background: #CCC;
+    border: none;
+    border-radius: 1px;
+  }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: green;
+    margin-top: -7px;
+  }
+  &:focus {
+    outline: none;
+
+    &::-webkit-slider-runnable-track {
+      background: white;
+    }
+  }
 }
