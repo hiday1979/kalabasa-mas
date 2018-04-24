@@ -18,15 +18,16 @@ export class MainPicComponent implements OnInit {
   }
 
   move() {
+    const mainPic = document.getElementById('mainPic');
     const bar = <HTMLInputElement> document.getElementById('myBar');
     bar.addEventListener('change', function () {
-      document.getElementById('mainPic').style.width = '' + bar.value + '%';
-    };
+      mainPic.style.width = '' + bar.value + '%';
+    });
     const rgbBar = <HTMLInputElement> document.getElementById('myRgbBar');
     rgbBar.addEventListener('change', function () {
-      document.getElementById('mainPic').style.opacity = rgbBar.value / 100;
-    };
-    }
+      const vv = parseInt(rgbBar.value, 0) / 100;
+      mainPic.style.opacity = vv.toString();
+    });
     }
 }
 
