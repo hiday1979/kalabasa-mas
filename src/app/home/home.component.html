@@ -1,8 +1,8 @@
-<div class="container main-container">
+<div class="container main-container" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
   <div class="scrolling-wrapper">
     <div class="card" *ngFor="let hero of images; let i = index">
       <img id="demo" name="{{i}}" class="navbar-img-logo" alt="Angular Logo" src="{{ hero }}" data-toggle="modal"
-       (click)="saveName($event)">
+       (click)="saveName($event)" ng-drag-data="{obj}" ng-drag-success="onDragComplete($data,$event)" ng-center-anchor="true" >
     </div>
   </div>
   <br>

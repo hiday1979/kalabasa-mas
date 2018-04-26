@@ -11,6 +11,7 @@ import { HeaderComponent } from './header/header.component';
 import { MainPicComponent } from './main-pic/main-pic.component';
 import { DragulaModule } from 'ng2-dragula';
 import { MyServiceService} from './my-service.service';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 
 
@@ -28,6 +29,7 @@ import { MyServiceService} from './my-service.service';
     AppRoutingModule,
     FormsModule,
     DragulaModule,
+    AngularDraggableModule,
     BrowserAnimationsModule
   ],
   providers: [MyServiceService],

@@ -1,33 +1,69 @@
 .first_div {
   text-align: center;
+  background-image: url('/assets/img/card_background.png');
+  background-repeat: no-repeat;
+    background-size: 100% 160%;
+    background-position: center;
+  margin-bottom: 15px;
+  position: relative;
 }
+
 
 .main_div {
-  height: 50vh;
+  height: 40vh;
   text-align: center;
+  margin-top: 25px;
+  position: relative;
 }
 
-.main_div img {
-  height: 95%;
-  width: 59%;
+.secend_div{
+  width: 55%;
+  margin-left: 23%;
 }
 
-.main_div h4 {
+ img {
+  position: absolute;
+  margin-left: 19%;
+  height: 50%;
+  width: 62%;
+  z-index: -1000;
+}
+
+ h4 {
   color: black;
-  margin-top: -90px;
-  margin-left: 21%;
-  height: 100px;
   z-index: 1000;
-  padding-top: 50px;
-  width: 58%;
-  position:relative
+  position:relative;
+  margin-bottom: 90px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  outline: transparent;
+  background-size: 100%, 100%;
+  border-radius: 50%;
+  background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 55px;
+  color: red;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 55px;
+  color: red;
 }
 
 .progressBar {
   width: 58%;
   margin-left: 20%;
   margin-bottom: 7px;
-  background: gray;
+  background: white;
 }
 
 label {

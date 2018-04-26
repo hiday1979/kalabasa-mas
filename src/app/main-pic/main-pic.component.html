@@ -1,36 +1,32 @@
-<div class="first_div">
+<img ngDraggable id="mainPic" src="{{imgSrc}}" ng-drag="true" (stopped)="onStop($event)">
+<div class="first_div"  >
   <div id="carouselId" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       <li data-target="#carouselId" data-slide-to="0" class="active"></li>
     </ol>
-    <p>
-        </p>
-        <div id="RGB"></div>
-    <div class="carousel-inner" role="listbox">
-      <div class="carousel-item active main_div">
-        <img id="mainPic" src='/assets/img/card.png' data-toggle="modal">
-        <h4>{{imgTitel}}</h4>
-        <p></p>
+    <div id="secend_div" class="carousel-inner secend_div" role="listbox">
+      <div id="main_div" class="carousel-item active main_div" (click)="moveImgFront()" >
       </div>
       <div class="carousel-caption d-none d-md-block">
       </div>
+      <h4>{{imgTitel}}</h4>
+        <p></p>
     </div>
   </div>
-  <a class="carousel-control-prev" href="#carouselId" role="button" data-slide="prev">
+  <a class="carousel-control-prev" href="#carouselId" role="button" data-slide="prev" (click)="moveImg()">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="sr-only">Previous</span>
   </a>
-  <a class="carousel-control-next" href="#carouselId" role="button" data-slide="next">
+  <a class="carousel-control-next" (click)="moveImRight()" href="#carouselId" role="button" data-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
 </div>
-<div class="progress progressBar">
+<div class="progress progressBar topProgressBar">
     <label for="myBar">Example Range input</label>
     <input type="range" id="myBar" class="progress-bar bg-success slider" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
   </div>
-  <div class="progress progressBar">
+  <div  id="div1" class="progress progressBar" ondrop="drop(event)" ondragover="allowDrop(event)">
       <label for="myRgbBar">Example Range input</label>
       <input type="range" id="myRgbBar" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
     </div>
-  

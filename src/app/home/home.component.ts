@@ -3,8 +3,10 @@ import { AbuteComponent } from './../abute/abute.component';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import { FotterComponent } from '../fotter/fotter.component';
+import { MainPicComponent } from '../main-pic/main-pic.component';
 import { HeaderComponent } from '../header/header.component';
 import { MyServiceService } from '../my-service.service';
+
 
 
 declare var firebase: any;
@@ -84,7 +86,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
     const reader = new FileReader();
     reader.readAsDataURL(this.inputImg.files[0]);
     const imgChosen = URL.createObjectURL(this.inputImg.files[0]);
-    this.mainPic.src = imgChosen;
+    const dragulaService = new DragulaService();
+    const ina = new MainPicComponent(dragulaService);
+    ina.imgSrc = imgChosen;
     this.inputImg.value = '';
   }
 
