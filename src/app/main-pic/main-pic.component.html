@@ -1,17 +1,17 @@
-<img ngDraggable id="mainPic" src="{{imgSrc}}" ng-drag="true" (stopped)="onStop($event)">
-<div class="first_div"  >
+
+<div id="first_div" class="first_div"  >
   <div id="carouselId" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-      <li data-target="#carouselId" data-slide-to="0" class="active"></li>
-    </ol>
+    <div id="picDIv" class="picDIv">
     <div id="secend_div" class="carousel-inner secend_div" role="listbox">
+        <img ngDraggable id="mainPic" src="{{imgSrc}}" ng-drag="true" (stopped)="onStop($event)">
       <div id="main_div" class="carousel-item active main_div" (click)="moveImgFront()" >
-      </div>
-      <div class="carousel-caption d-none d-md-block">
       </div>
       <h4>{{imgTitel}}</h4>
         <p></p>
     </div>
+  </div>
+  <br>
+    <button id="btnEdit" (click)="editPic()" type="button" class="btn btn-success btnDone">Edit</button>
   </div>
   <a class="carousel-control-prev" href="#carouselId" role="button" data-slide="prev" (click)="moveImg()">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

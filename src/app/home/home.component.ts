@@ -10,6 +10,7 @@ import { MyServiceService } from '../my-service.service';
 
 
 declare var firebase: any;
+declare var ina: MainPicComponent;
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   imgCount = 15;
   inputImage = 'conected';
   mainImageSrc;
+
   goalText = 'My first life goal';
   images = ['/assets/img/card.png'];
   options: any = {
@@ -86,23 +88,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
     const reader = new FileReader();
     reader.readAsDataURL(this.inputImg.files[0]);
     const imgChosen = URL.createObjectURL(this.inputImg.files[0]);
-    const dragulaService = new DragulaService();
-    const ina = new MainPicComponent(dragulaService);
-    ina.imgSrc = imgChosen;
     this.inputImg.value = '';
   }
 
   saveName(event) {
     this.chosenPic = event.target;
+    const ts = this.chosenPic.src.localeCompare(this.mainPic.src);
     const myModel =  <HTMLDivElement>document.getElementById('demo');
-    if (this.chosenPic.src === this.mainImageSrc) {
+    if (ts === 0) {
       myModel.setAttribute('data-target' , '#myModal');
     } else {
       this.mainPic.src = this.chosenPic.src;
     }
-    console.log(this.chosenPic.src === this.mainImageSrc);
     if (this.images.length >= this.imgCount) {
-      console.log('I am done');
       document.getElementById('btnDone').style.display = 'initial';
     }
   }
@@ -122,6 +120,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   iAmDone() {
-      console.log('I am done');
+     const imgFromDb = new Image();
   }
 }

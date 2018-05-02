@@ -1,9 +1,5 @@
 .first_div {
   text-align: center;
-  background-image: url('/assets/img/card_background.png');
-  background-repeat: no-repeat;
-    background-size: 100% 160%;
-    background-position: center;
   margin-bottom: 15px;
   position: relative;
 }
@@ -17,15 +13,28 @@
 }
 
 .secend_div{
-  width: 55%;
+  width: 60%;
   margin-left: 23%;
+  background-image: url('/assets/img/card_background.png');
+  background-repeat: no-repeat;
+    background-size: 135%;
+    background-position: center;
+    overflow: hidden;
+}
+
+.picDIv{
+  position: relative;
+  display: inline-block;
+  width: 50%;
 }
 
  img {
   position: absolute;
-  margin-left: 19%;
-  height: 50%;
-  width: 62%;
+  margin-top: -10%;
+  margin-left: -50%;
+  height: 100%;
+  width: 100%;
+ 
   z-index: -1000;
 }
 
@@ -33,7 +42,7 @@
   color: black;
   z-index: 1000;
   position:relative;
-  margin-bottom: 90px;
+  margin-bottom: 70px;
 }
 
 .carousel-control-prev-icon,
@@ -67,7 +76,7 @@
 }
 
 label {
-  // background: green;
+  display: none;
 }
 
 /* The slider itself */
@@ -75,6 +84,8 @@ input[type=range] {
   -webkit-appearance: none;
   width: 100%;
   margin: 13.8px 0;
+  margin-bottom: 50px;
+  visibility: hidden;
 }
 input[type=range]:focus {
   outline: none;
