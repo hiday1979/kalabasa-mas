@@ -1,5 +1,5 @@
 h5 {
-  color: black;
+  color: white;
   text-align: right;
   width: 100%;
 }
@@ -7,6 +7,8 @@ h5 {
     background-color: aqua;
 }
 .main-container {
+  height: 20vh;
+  max-height: 20vh;
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;
@@ -16,25 +18,52 @@ h5 {
   overflow-y: hidden;
   white-space: nowrap;
   display: inline;
-
 }
 .card {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
   display: inline;
   margin-right: 10px;
-  background: white;
-  border: gray;
+  border: black;
 }
 
+.cardd {
+  display: inline;
+  margin-right: 10px;
+  border: black;
+}
 
+span{
+  color: white;
+}
 .card img {
   height: 75px;
 }
-
-.btnDone{
-  float: right;
-  margin-top: 10px;
-  display: none;
+.cardd img {
+  height: 75px;
 }
 
 
+#btnDone {
+  float: right;
+  display: none;
+}
 
+#btnDelete {
+  float: left;
+  display: none;
+  margin-right: 20px;
+}
+
+.mainModelDIv {
+  text-align: center;
+}
+
+.modelInputDiv{
+  background: orange;
+}
+.mainModelDIv h5 {
+  color: black;
+  text-align: center;
+}

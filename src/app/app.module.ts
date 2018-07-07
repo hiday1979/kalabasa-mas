@@ -13,8 +13,8 @@ import { DragulaModule } from 'ng2-dragula';
 import { MyServiceService} from './my-service.service';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { html2canvas } from 'html2canvas';
-
-
+import { CloudinaryModule } from '@cloudinary/angular-5.x';
+import * as  Cloudinary from 'cloudinary-core';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,8 @@ import { html2canvas } from 'html2canvas';
     FormsModule,
     DragulaModule,
     AngularDraggableModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'hiday'}),
   ],
   providers: [MyServiceService],
   bootstrap: [AppComponent]

@@ -7,8 +7,6 @@ import { MainPicComponent } from '../main-pic/main-pic.component';
 import { HeaderComponent } from '../header/header.component';
 import { MyServiceService } from '../my-service.service';
 
-
-
 declare var firebase: any;
 declare var ina: MainPicComponent;
 
@@ -17,27 +15,21 @@ declare var ina: MainPicComponent;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, AfterViewInit {
-  static uid;
+export class HomeComponent implements OnInit {
+  static chosenImg;
   static fbData;
-  static fbStorege;
-  static myimages = ['/assets/img/card.png'];
+  static uid;
+  static dataList = [];
 
+  imgSrc = '/assets/img/card.png';
+  minPicNumber = 5;
+  correntPicNumber;
+  images = [];
   mainPic: HTMLImageElement;
   chosenPic: HTMLImageElement;
   inputImg: HTMLInputElement;
   divImglist: HTMLDivElement;
-  imgCount = 15;
-  inputImage = 'conected';
-  mainImageSrc;
-
-  goalText = 'My first life goal';
-  images = ['/assets/img/card.png'];
-  options: any = {
-    removeOnSpill: true
-  };
-  imgName = 0;
-  clearList = true;
+  hasBack = true;
 
   constructor() {
   }
@@ -47,13 +39,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
       if (user) {
         // User is signed in.
         HomeComponent.uid = user.uid;
-        HomeComponent.fbData = firebase.database().ref().child('users/' + HomeComponent.uid);
+        HomeComponent.fbData = firebase.database().ref().child('users').child(user.uid);
         HomeComponent.fbData.on('child_added', function (snapshot) {
-          const object = Object.values(snapshot.val());
-          HomeComponent.myimages.push(object[0]);
-        });
+        const object = Object.values(snapshot.val());
+        HomeComponent.dataList.push(object[0]);
+      });
       } else {
         // User is signed out.
+        console.log('User is signed out');
         firebase.auth().signInAnonymously().catch(function (error) {
           // Handle Errors here.
           const errorCode = error.code;
@@ -63,63 +56,96 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }
       // ...
     });
-    this.divImglist = <HTMLDivElement>document.getElementById('div');
     this.mainPic = <HTMLImageElement>document.getElementById('mainPic');
-    this.mainImageSrc = this.mainPic.src;
     this.inputImg = <HTMLInputElement>document.getElementById('myImage');
     this.inputImg.addEventListener('change', function (e) {
-      // save file to storage
-      const file = this.files[0];
-      HomeComponent.fbStorege = firebase.storage().ref(HomeComponent.uid).child(file.name);
-      HomeComponent.fbStorege.put(file).then(function (snapshot) {
-        HomeComponent.fbStorege.getDownloadURL().then(function (urll) {
-          HomeComponent.fbSetData(urll);
-        });
-      });
+      // save img
+      HomeComponent.chosenImg = this.files[0];
     });
-    this.logInToFB();
-  }
+    this.getData();
+}
 
-  ngAfterViewInit() {
 
-  }
-
-  previewFile(inputImage) {
+  previewFile() {
     const reader = new FileReader();
     reader.readAsDataURL(this.inputImg.files[0]);
     const imgChosen = URL.createObjectURL(this.inputImg.files[0]);
     this.inputImg.value = '';
+    const mainPic = <HTMLImageElement>document.getElementById('mainPic');
+    mainPic.src = imgChosen;
+    const homeContainer = <HTMLDivElement>document.getElementById('inputContainer');
+    homeContainer.style.display = 'initial';
   }
 
-  saveName(event) {
-    this.chosenPic = event.target;
-    const ts = this.chosenPic.src.localeCompare(this.mainPic.src);
-    const myModel =  <HTMLDivElement>document.getElementById('demo');
-    if (ts === 0) {
-      myModel.setAttribute('data-target' , '#myModal');
-    } else {
-      this.mainPic.src = this.chosenPic.src;
+    getData() {
+      this.images = HomeComponent.dataList;
+      console.log(this.images);
     }
-    if (this.images.length >= this.imgCount) {
-      document.getElementById('btnDone').style.display = 'initial';
+
+    moveImg() {
+      const mainPicSrc = <HTMLImageElement>document.getElementById('mainPic');
+      const as = mainPicSrc.src;
+      const num = this.images.indexOf(as) - 1;
+      console.log(num);
+      if (num > 0) {
+        mainPicSrc.src = this.images[num];
+        this.imgSrc = this.images[num];
+      } else {
+        mainPicSrc.src = this.images[this.images.length - 1];
+        this.imgSrc = this.images[this.images.length - 1];
+      }
     }
-  }
 
-  getAllUserImages() {
+    moveImRight() {
+      const mainPicSrc = <HTMLImageElement>document.getElementById('mainPic');
+      const as = mainPicSrc.src;
+      const num = this.images.indexOf(as) + 1;
+      console.log(num);
+      if (num < this.images.length - 1) {
+        mainPicSrc.src = this.images[num];
+        this.imgSrc = this.images[num];
+      } else {
+        mainPicSrc.src = this.images[1];
+        this.imgSrc = this.images[1];
+      }
 
-  }
+    }
 
-  // tslint:disable-next-line:member-ordering
-  static fbSetData(inputImage: string) {
-    const ref = firebase.database().ref('users/' + HomeComponent.uid);
-    ref.push({ url: inputImage });
-  }
+    saveName(event) {
+      console.log('save');
+      const btnDelete = <HTMLButtonElement>document.getElementById('btnDelete');
+      const btnDone = <HTMLButtonElement>document.getElementById('btnDone');
+      btnDelete.style.display = 'inline';
+      const homeContainer = <HTMLDivElement>document.getElementById('picDiv');
+      homeContainer.style.backgroundImage = 'none';
+      const mainPic = <HTMLImageElement>document.getElementById('mainPic');
+      mainPic.style.zIndex = '100';
+      this.chosenPic = event.target;
+      const ts = this.chosenPic.src.localeCompare(mainPic.src);
+      mainPic.src = this.chosenPic.src;
+      if (this.images.length >= this.minPicNumber) {
+        document.getElementById('btnDone').style.display = 'inline';
+      }
+    }
 
-  logInToFB() {
-      this.images = HomeComponent.myimages;
-  }
+    addBack() {
+      const homeContainer = <HTMLDivElement>document.getElementById('picDiv');
+      if (!this.hasBack) {
+      homeContainer.style.backgroundImage = 'url("/assets/img/card_background.png")';
+      this.hasBack = !this.hasBack;
+      }
+    }
 
-  iAmDone() {
-     const imgFromDb = new Image();
-  }
+    fbDeleteItem() {
+      const mainPic = <HTMLImageElement>document.getElementById('mainPic');
+      const storage = firebase.storage().refFromURL(mainPic.src);
+      storage.delete().then(function() {
+       console.log(' File deleted successfully');
+       HomeComponent.fbData.child('users').child(HomeComponent.uid).remove(function(error) {
+        alert(error ? 'Uh oh!' : 'Success!');
+      });
+      }).catch(function(error) {
+        console.log('Uh-oh, an error occurred!');
+      });
+    }
 }

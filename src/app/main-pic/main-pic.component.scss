@@ -1,91 +1,66 @@
-.first_div {
-  text-align: center;
-  margin-bottom: 15px;
-  position: relative;
-}
-
-
-.main_div {
-  height: 40vh;
-  text-align: center;
-  margin-top: 25px;
-  position: relative;
-}
-
-.secend_div{
-  width: 60%;
-  margin-left: 23%;
+.background{
+  max-height:50vh;
+  height: 50vh;
   background-image: url('/assets/img/card_background.png');
   background-repeat: no-repeat;
-    background-size: 135%;
-    background-position: center;
-    overflow: hidden;
+    background-size : 100%;
+    background-position-y: 40%;
+    background-position-x: center;
 }
 
-.picDIv{
+.innerDiv {
+  overflow:hidden;
+  text-align:center;
   position: relative;
-  display: inline-block;
-  width: 50%;
-}
-
- img {
-  position: absolute;
-  margin-top: -10%;
-  margin-left: -50%;
   height: 100%;
+  padding-bottom: 10%;
+
+}
+
+.margimDiv{
+  
+}
+
+#picName {
+ color: red
+}
+
+.background img {
+  position: relative;
+  height: 100%;
+  z-index: -10;
+  overflow: hidden;
+}
+
+.innerDivDiv {
+  font-size: 25px;
+  text-align: center;
+  margin-top: -18%;
   width: 100%;
- 
-  z-index: -1000;
+  position: absolute;
+  color: #fff;
+  z-index:10;
+}
+.midDiv{
+  display: inline-block;
+
+}
+.inputContainer {
+  display:none;
 }
 
- h4 {
-  color: black;
-  z-index: 1000;
-  position:relative;
-  margin-bottom: 70px;
+.btnDoneEdit {
+  display: inline;
 }
 
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  height: 100px;
-  width: 100px;
-  outline: transparent;
-  background-size: 100%, 100%;
-  border-radius: 50%;
-  background-image: none;
+#btnMovePicTofront{
+  float: right;
 }
 
-.carousel-control-next-icon:after
-{
-  content: '>';
-  font-size: 55px;
-  color: red;
-}
-
-.carousel-control-prev-icon:after {
-  content: '<';
-  font-size: 55px;
-  color: red;
-}
-
-.progressBar {
-  width: 58%;
-  margin-left: 20%;
-  margin-bottom: 7px;
-  background: white;
-}
-
-label {
-  display: none;
-}
-
-/* The slider itself */
 input[type=range] {
   -webkit-appearance: none;
   width: 100%;
   margin: 13.8px 0;
-  margin-bottom: 50px;
-  visibility: hidden;
 }
 input[type=range]:focus {
   outline: none;
@@ -111,7 +86,7 @@ input[type=range]::-webkit-slider-thumb {
   margin-top: -14px;
 }
 input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #367ebd;
+  background: #3174ad;
 }
 input[type=range]::-moz-range-track {
   width: 100%;
@@ -140,7 +115,7 @@ input[type=range]::-ms-track {
   color: transparent;
 }
 input[type=range]::-ms-fill-lower {
-  background: #2a6495;
+  background: #2f6ea5;
   border: 0.2px solid #010101;
   border-radius: 2.6px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
@@ -165,5 +140,22 @@ input[type=range]:focus::-ms-fill-lower {
   background: #3071a9;
 }
 input[type=range]:focus::-ms-fill-upper {
-  background: #367ebd;
+  background: #3174ad;
+}
+
+
+@media screen and (max-width: 992px) {
+  .background {
+    background-size : 170%;
+    background-position-y: 40%;
+    background-position-x: center;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .background {
+    background-size : 100%;
+    background-position-y: 40%;
+    background-position-x: center;
+  }
 }

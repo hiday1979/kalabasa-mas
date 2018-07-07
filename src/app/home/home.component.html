@@ -1,44 +1,27 @@
+
 <div id="homeContainer" class="container main-container" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
-  <div class="scrolling-wrapper">
-    <div class="card" *ngFor="let hero of images; let i = index">
-      <img id="demo" name="{{i}}" class="navbar-img-logo" alt="Angular Logo" src="{{ hero }}" data-toggle="modal"
-       (click)="saveName($event)" ng-drag-data="{obj}" ng-drag-success="onDragComplete($data,$event)" ng-center-anchor="true" >
-    </div>
+  <div class="cardd">
+      <img id="demo" (click)="addBack()" class="navbar-img-logo" alt="Angular Logo" src="/assets/img/card-1.png" data-toggle="modal" data-target="#exampleModal">
   </div>
+  <div class="scrolling-wrapper" id="scrolling-wrapper">
+  <div class="card" *ngFor="let img of images; let i = index">
+    <img id="caroselPic" (click)="saveName($event)" name="{{i}}" class="navbar-img-logo" alt="Angular Logo" src="{{ img }}">
+ </div>
+</div>
+<br>
+</div>
+<div class="container">
+<span type="text" name="Max" value="Max">Min images: </span>
+  <span>{{minPicNumber}}</span>
+  <button id="btnDone" type="button" class="btn btn-success btnDone">Done</button>
+  <button id="btnDelete" (click)="fbDeleteItem()" type="button" class="btn btn-danger btnDone">Delete</button>
   <br>
-    <span type="text" name="Max" value="Max">Min images: </span>
-    <span>{{imgCount}}</span>
-    <button id="btnDone" (click)="iAmDone()" type="button" class="btn btn-success btnDone">Done</button>
-    <br>
-    <span>Number of images: </span>
-    <span>{{images.length - 1}}</span>
+  <span>Number of images: </span>
+  <span>{{images.length}}</span>
 </div>
 
 
 
-<!-- model -->
-<div class="modal fade" id="myModal">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close btn" data-dismiss="modal">&times;</button>
-        <h5>הוסף תמונה</h5>
-      </div>
-
-      <div class="modal-body modelBody">
-        <p>Some text in the modal.</p>
-        <input type="file" name="myImage" accept="image/*" id="myImage" [(ngModel)]="inputImage" />
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="previewFile(inputImage)">Accept</button>
-      </div>
-    </div>
-
-
-  </div>
-</div>
 
 
 

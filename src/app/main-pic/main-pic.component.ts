@@ -4,7 +4,10 @@ import { HomeComponent } from '../home/home.component';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import * as html2canvas from 'html2canvas';
+import { Cloudinary } from '@cloudinary/angular-5.x';
 
+
+declare var firebase: any;
 
 @Component({
   selector: 'app-main-pic',
@@ -12,121 +15,99 @@ import * as html2canvas from 'html2canvas';
   styleUrls: ['./main-pic.component.scss']
 })
 export class MainPicComponent implements OnInit {
-  imgSrc = '/assets/img/card.png';
-  imgTitel = 'myPic';
-  varheight;
-  varwidth;
-  options: any = {
-    removeOnSpill: false
-  };
-  editMode = true;
+  static uid;
+  static fbData;
+  static fbStorege;
+  static myimages = [];
 
-  constructor(private dragulaService: DragulaService) { }
+  picName = '';
+
+  constructor() { }
 
   ngOnInit() {
+    this.fbLogIn();
     this.move();
   }
 
+
   move() {
     const mainPic = <HTMLImageElement>document.getElementById('mainPic');
-    const bar = <HTMLInputElement>document.getElementById('myBar');
-    bar.defaultValue = '0';
+    const bar = <HTMLInputElement>document.getElementById('myRgbBar');
     bar.addEventListener('change', function () {
-      const h = parseInt(bar.value, 0) * 0.13;
-      mainPic.style.height = (h + 100) + '%';
-      mainPic.style.width = (h + 100) + '%';
+      const h = parseInt(bar.value, 0);
+      mainPic.style.height = (h + 50) + '%';
+      // mainPic.style.width = (h + 50) + '%';
     });
-    const rgbBar = <HTMLInputElement>document.getElementById('myRgbBar');
-    rgbBar.defaultValue = '100';
+    const rgbBar = <HTMLInputElement>document.getElementById('myBar');
     rgbBar.addEventListener('change', function () {
       const vv = parseInt(rgbBar.value, 0) / 100;
       mainPic.style.opacity = vv.toString();
     });
   }
 
-  moveImg() {
-    const mainPicSrc = <HTMLImageElement>document.getElementById('mainPic');
-    const as = mainPicSrc.src;
-    const num = HomeComponent.myimages.indexOf(as) - 1;
-    console.log(num);
-    if (num > 0) {
-      mainPicSrc.src = HomeComponent.myimages[num];
-      this.imgSrc = HomeComponent.myimages[num];
-    } else {
-      mainPicSrc.src = HomeComponent.myimages[HomeComponent.myimages.length - 1];
-      this.imgSrc = HomeComponent.myimages[HomeComponent.myimages.length - 1];
-    }
-  }
-
-  moveImRight() {
-    const mainPicSrc = <HTMLImageElement>document.getElementById('mainPic');
-    const as = mainPicSrc.src;
-    const num = HomeComponent.myimages.indexOf(as) + 1;
-    console.log(num);
-    if (num < HomeComponent.myimages.length - 1) {
-      mainPicSrc.src = HomeComponent.myimages[num];
-      this.imgSrc = HomeComponent.myimages[num];
-    } else {
-      mainPicSrc.src = HomeComponent.myimages[1];
-      this.imgSrc = HomeComponent.myimages[1];
-    }
-
-  }
-
-  moveImgFront() {
-    const mainPicSrc = <HTMLImageElement>document.getElementById('mainPic');
-    mainPicSrc.style.zIndex = '1000';
+  btnMovePicTofront() {
+    const mainPicther = <HTMLImageElement>document.getElementById('mainPic');
+    mainPicther.style.zIndex = '100';
   }
 
   onStop($event) {
     const mainPicSrc = <HTMLImageElement>document.getElementById('mainPic');
-    mainPicSrc.style.zIndex = '-1000';
+    mainPicSrc.style.zIndex = '-100';
   }
 
-  editPic() {
-    const homeContainer = <HTMLDivElement>document.getElementById('homeContainer');
-    const btnEdit = <HTMLImageElement>document.getElementById('btnEdit');
-    const mainBar = <HTMLInputElement>document.getElementById('myBar');
-    const myRgbBar = <HTMLInputElement>document.getElementById('myRgbBar');
-    if (this.editMode) {
-      homeContainer.style.visibility = 'hidden';
-      mainBar.style.visibility = 'visible';
-      myRgbBar.style.visibility = 'visible';
-      btnEdit.innerHTML = 'Done';
-    } else {
-      this.loadImage();
-      homeContainer.style.visibility = 'visible';
-      mainBar.style.visibility = 'hidden';
-      myRgbBar.style.visibility = 'hidden';
-      btnEdit.innerHTML = 'Edit';
-
-    }
-    this.editMode = !this.editMode;
-  }
-
-  pdfDownload() {
-    const mainicSrc = <HTMLImageElement>document.getElementById('mainPic');
-    const mainPicSrc = <HTMLDivElement>document.getElementById('secend_div');
-      const newImg = mainicSrc;
-      html2canvas(newImg).then(function (canvas) {
-      const imgData = canvas.toDataURL('image/png');
-      canvas.getContext('2d');
-      document.body.appendChild(canvas);
-      // const ctx = canvas.getContext('2d');
-      // ctx.drawImage(newImg, 0, 0);
-      // mainicSrc.appendChild(ctx);
-    });
-  }
-
-  loadImage() {
-    const mainPicSrc = <HTMLDivElement>document.getElementById('secend_div');
-    const mainicSrc = <HTMLImageElement>document.getElementById('mainPic');
-    const mainPic = document.getElementById('mainPic');
-    const image = new Image(400 , 400);
-    image.src = mainicSrc.src;
-    image.style.overflow = 'hidden';
-    document.body.appendChild(image);
-  }
-
+  fbLogIn() {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        MainPicComponent.uid = user.uid;
+        MainPicComponent.fbData = firebase.database().ref().child('users/' + user.uid);
+        MainPicComponent.fbStorege = firebase.storage().ref(user.uid);
+      } else {
+        // User is signed out.
+        console.log('User is signed out');
+      }
+      // ...
+  });
 }
 
+  previewFile(inputImage) {
+    const inputNamePic = <HTMLInputElement>document.getElementById('inputNamePic');
+    if (inputNamePic.value === '') {
+      alert('no name');
+    } else {
+    const scrollingWrapper = <HTMLDivElement>document.getElementById('scrolling-wrapper');
+    const inputContainer = <HTMLDivElement>document.getElementById('inputContainer');
+    inputContainer.style.display = 'inline';
+    scrollingWrapper.style.display = 'none';
+    const mainPic = <HTMLImageElement>document.getElementById('mainPic');
+    const inputImg = <HTMLInputElement>document.getElementById('myImage');
+    const reader = new FileReader();
+    reader.readAsDataURL(inputImg.files[0]);
+    const imgChosen = URL.createObjectURL(inputImg.files[0]);
+    mainPic.src = imgChosen;
+    inputImg.value = '';
+    }
+  }
+
+  doneEditing() {
+    const scrollingWrapper = <HTMLDivElement>document.getElementById('scrolling-wrapper');
+    const inputContainer = <HTMLDivElement>document.getElementById('inputContainer');
+    inputContainer.style.display = 'none';
+    scrollingWrapper.style.display = 'inline';
+    const newImg = <HTMLDivElement>document.getElementById('picDiv');
+    const newImgName = <HTMLDivElement>document.getElementById('picName');
+    html2canvas(newImg).then(function (canvas) {
+      const imgData = canvas.toDataURL('image/png;base64;');
+      canvas.getContext('2d');
+      canvas.toBlob(function(blob) {
+        MainPicComponent.fbStorege.child(newImgName.innerHTML).put(blob).then(function (snapshot) {
+          MainPicComponent.fbStorege.child(newImgName.innerHTML).getDownloadURL().then(function (urll) {
+            MainPicComponent.fbData.push({ url: urll});
+          });
+        });
+      });
+  });
+  }
+
+
+}
