@@ -52,7 +52,7 @@ export class MainPicComponent implements OnInit {
 
   onStop($event) {
     const mainPicSrc = <HTMLImageElement>document.getElementById('mainPic');
-    mainPicSrc.style.zIndex = '-100';
+    mainPicSrc.style.zIndex = '-1000';
   }
 
   fbLogIn() {
@@ -94,7 +94,7 @@ export class MainPicComponent implements OnInit {
     const inputContainer = <HTMLDivElement>document.getElementById('inputContainer');
     inputContainer.style.display = 'none';
     scrollingWrapper.style.display = 'inline';
-    const newImg = <HTMLDivElement>document.getElementById('picDiv');
+    const newImg = <HTMLDivElement>document.getElementById('midDiv');
     const newImgName = <HTMLDivElement>document.getElementById('picName');
     html2canvas(newImg).then(function (canvas) {
       const imgData = canvas.toDataURL('image/png;base64;');
